@@ -1,5 +1,6 @@
 package br.com.adeweb.magicview.services;
 
+import java.util.List;
 import java.util.UUID;
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,6 +66,17 @@ public class UploadService {
 
   public Upload getById(UUID id){
     return repository.findById(id).orElseThrow();
+  }
+
+  public List<AttachmentDTO> getAllByUser(String uri){
+    String idUser = userDetailsService.getUserAuthentication();
+    return repository.getAllByUserId(UUID.fromString(idUser)).stream().map(r->{
+      return AttachmentDTO.builder()
+              .fileName(r.getFileName())
+              .urlFile(uri + "/" + r.getId())
+              .fileType(r.getFileType())
+              .build();
+    }).toList();
   }
 
   public AttachmentDTO getFileUrl(UUID id) throws IOException{
