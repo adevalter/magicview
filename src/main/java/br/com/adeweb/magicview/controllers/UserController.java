@@ -2,14 +2,13 @@ package br.com.adeweb.magicview.controllers;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.adeweb.magicview.dto.LoginRequest;
 import br.com.adeweb.magicview.dto.LoginResponse;
@@ -61,6 +60,14 @@ public class UserController {
 
       throw new RuntimeException("Credenciais Inválidas");
     }
+  }
+
+  @GetMapping
+  public ResponseEntity<?> getAllUsers (
+          @RequestParam(defaultValue = "0") final Integer pageNumber,
+          @RequestParam(defaultValue = "5") final Integer size
+  ) {
+    return ResponseEntity.ok(service.findAll(PageRequest.of(pageNumber,size)));
   }
 
 }
