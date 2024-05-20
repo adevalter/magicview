@@ -1,7 +1,10 @@
 package br.com.adeweb.magicview.services;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +45,10 @@ public class UserService {
 
   public Optional<User> findByNick(String nick) {
     return repository.findByNick(nick);
+  }
+
+  public Page<User> findAll(Pageable pageable) {
+    return repository.findAll(pageable);
   }
 
 }
