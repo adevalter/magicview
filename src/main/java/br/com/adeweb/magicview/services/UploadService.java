@@ -40,7 +40,7 @@ public class UploadService {
     }
   }
 
-  public void save(MultipartFile file) {
+  public Upload save(MultipartFile file) {
     try {
       Date date = new Date();
       Long getTime = date.getTime();
@@ -58,7 +58,7 @@ public class UploadService {
         .user(user)
         .build();
 
-      repository.save(upload);
+     return repository.save(upload);
     } catch (Exception e) {
       throw new RuntimeException(e.getMessage()); 
     }
@@ -71,6 +71,17 @@ public class UploadService {
   public List<AttachmentDTO> getAllByUser(String uri){
     String idUser = userDetailsService.getUserAuthentication();
     return repository.getAllByUserId(UUID.fromString(idUser)).stream().map(r->{
+      return AttachmentDTO.builder()
+              .fileName(r.getFileName())
+              .urlFile(uri + "/" + r.getId())
+              .fileType(r.getFileType())
+              .build();
+    }).toList();
+  }
+
+  public List<AttachmentDTO> getAll(String uri, UUID idUser){
+
+    return repository.getAllByUserId(idUser).stream().map(r->{
       return AttachmentDTO.builder()
               .fileName(r.getFileName())
               .urlFile(uri + "/" + r.getId())

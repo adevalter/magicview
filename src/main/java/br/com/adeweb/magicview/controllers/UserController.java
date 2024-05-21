@@ -65,7 +65,7 @@ public class UserController {
   @GetMapping
   public ResponseEntity<?> getAllUsers (
           @RequestParam(defaultValue = "0") final Integer pageNumber,
-          @RequestParam(defaultValue = "5") final Integer size
+          @RequestParam(defaultValue = "10") final Integer size
   ) {
     return ResponseEntity.ok(service.findAll(PageRequest.of(pageNumber,size)));
   }
