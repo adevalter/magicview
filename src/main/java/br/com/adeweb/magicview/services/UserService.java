@@ -35,7 +35,7 @@ public class UserService {
     }
 
     if (findByNick(user.getNick()).isPresent()) {
-      throw new RuntimeException("Email ja Cadastrado");
+      throw new RuntimeException("Nick ja Cadastrado");
     }
   }
 

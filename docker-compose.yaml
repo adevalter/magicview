@@ -1,0 +1,30 @@
+version: "3.9"
+
+networks:
+  magicview-network:
+    driver: bridge
+
+services:
+  magicview-mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: magic2024view
+      MYSQL_DATABASE: magicview
+    ports:
+      - "3306:3306"
+    networks:
+      - magicview-network
+
+  magicview-api:
+    image: magiview:1.0
+    environment:
+      SRV_PORT: 8080
+      DATABASE_HOST: localhost
+      DATABASE_USER: root
+      DATABASE_PASSWORD: magic2024view
+    ports:
+      - "8080:8080"
+    networks:
+      - magicview-network
+    depends_on:
+      - magicview-mysql

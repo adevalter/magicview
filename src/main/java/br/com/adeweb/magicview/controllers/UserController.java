@@ -2,8 +2,9 @@ package br.com.adeweb.magicview.controllers;
 
 import java.util.Optional;
 
+import br.com.adeweb.magicview.dto.UserDto;
+import br.com.adeweb.magicview.models.User;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import br.com.adeweb.magicview.dto.LoginRequest;
 import br.com.adeweb.magicview.dto.LoginResponse;
-import br.com.adeweb.magicview.models.User;
 import br.com.adeweb.magicview.security.JWTUtil;
 import br.com.adeweb.magicview.services.UserService;
 
@@ -31,8 +31,10 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<User> createUser(@RequestBody User user) {
-    return ResponseEntity.ok(service.saveUser(user));
+  public ResponseEntity<UserDto> createUser(@RequestBody User user) {
+    User saved = service.saveUser(user);
+    UserDto usrDto = new UserDto(saved.getId(),saved.getNick(),saved.getEmail());
+    return ResponseEntity.ok(usrDto);
   }
 
   @PostMapping("/login")
@@ -40,7 +42,7 @@ public class UserController {
 
     try {
 
-      Optional<User> opUser = service.findByEmail(loginRequest.email());
+      Optional<br.com.adeweb.magicview.models.User> opUser = service.findByEmail(loginRequest.email());
       System.out.println(loginRequest.email());
       if (opUser.isEmpty()) {
         throw new RuntimeException("Usuário não Cadastrado");
@@ -51,8 +53,8 @@ public class UserController {
       authManager.authenticate(authInputToken);
 
       String token = jwtUtil.generateToken(opUser.get());
-
-      LoginResponse loginResponse = new LoginResponse(opUser.get().getEmail(), token);
+      UserDto userDto = new UserDto(opUser.get().getId(), opUser.get().getNick(), opUser.get().getEmail());
+      LoginResponse loginResponse = new LoginResponse(userDto, token);
 
       return loginResponse;
 
