@@ -3,6 +3,7 @@ package br.com.adeweb.magicview.controllers;
 import java.util.Optional;
 
 import br.com.adeweb.magicview.dto.UserDto;
+import br.com.adeweb.magicview.models.User;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,8 +31,10 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<br.com.adeweb.magicview.models.User> createUser(@RequestBody br.com.adeweb.magicview.models.User user) {
-    return ResponseEntity.ok(service.saveUser(user));
+  public ResponseEntity<UserDto> createUser(@RequestBody User user) {
+    User saved = service.saveUser(user);
+    UserDto usrDto = new UserDto(saved.getId(),saved.getNick(),saved.getEmail());
+    return ResponseEntity.ok(usrDto);
   }
 
   @PostMapping("/login")
