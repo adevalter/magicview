@@ -7,6 +7,7 @@ networks:
 services:
   magicview-mysql:
     image: mysql:latest
+    container_name: magicview-mysql
     environment:
       MYSQL_ROOT_PASSWORD: magic2024view
       MYSQL_DATABASE: magicview
@@ -18,7 +19,7 @@ services:
       - magicview-network
 
   magicview-api:
-    image: magiview:1.0
+    image: magiview:1.1
     environment:
       SRV_PORT: 8080
       DATABASE_HOST: magicview-magicview-mysql-1
