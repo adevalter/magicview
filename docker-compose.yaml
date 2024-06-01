@@ -6,6 +6,7 @@ networks:
 
 services:
   magicview-mysql:
+    container_name: magicview-mysql
     image: mysql:latest
     container_name: magicview-mysql
     environment:
@@ -17,6 +18,8 @@ services:
       - "3306:3306"
     networks:
       - magicview-network
+    volumes:
+      - d:\volumes_docker\magic_view\mysql:/var/lib/mysql
 
   magicview-api:
     image: magiview:1.1
@@ -29,6 +32,8 @@ services:
       - "8080:8080"
     networks:
       - magicview-network
+    volumes:
+      - d:\volumes_docker\magic_view\uploads:/uploads
     depends_on:
       - magicview-mysql
     restart: on-failure
