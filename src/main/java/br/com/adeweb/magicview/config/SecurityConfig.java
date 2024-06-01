@@ -47,9 +47,7 @@ public class SecurityConfig {
                         .requestMatchers("/**").authenticated()
                 )
                 .cors(cors-> new CorsConfiguration())
-                .exceptionHandling(ex -> ex.authenticationEntryPoint(this.authEntryPoint))
-
-        ;
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(this.authEntryPoint));
 
         return  http.build();
     }

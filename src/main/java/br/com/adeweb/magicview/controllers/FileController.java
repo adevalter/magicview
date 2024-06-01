@@ -44,13 +44,13 @@ public class FileController {
     public ResponseEntity<List<AttachmentDTO>> getAllByUser(HttpServletRequest request) {
         String url = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
         String uri = request.getRequestURI();
-        return ResponseEntity.ok().body(service.getAllByUser(url + uri));
+        return ResponseEntity.ok().body(service.getAllByUser(url+"/file"));
     }
 
     @GetMapping("user/{id}")
     public ResponseEntity<List<AttachmentDTO>> getAllAll(HttpServletRequest request, @PathVariable UUID id) {
         String url = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
         String uri = request.getRequestURI();
-        return ResponseEntity.ok().body(service.getAll(url + uri, id));
+        return ResponseEntity.ok().body(service.getAll(url+"/file", id));
     }
 }
