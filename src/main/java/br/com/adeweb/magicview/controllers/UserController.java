@@ -31,10 +31,17 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<UserDto> createUser(@RequestBody User user) {
-    User saved = service.saveUser(user);
-    UserDto usrDto = new UserDto(saved.getId(),saved.getNick(),saved.getEmail());
-    return ResponseEntity.ok(usrDto);
+  public ResponseEntity<?> createUser(@RequestBody User user) {
+    try {
+      User saved = service.saveUser(user);
+      UserDto usrDto = new UserDto(saved.getId(),saved.getNick(),saved.getEmail());
+      return ResponseEntity.ok(usrDto);
+    }catch (RuntimeException e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+
+
   }
 
   @PostMapping("/login")

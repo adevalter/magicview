@@ -8,9 +8,12 @@ services:
   magicview-mysql:
     container_name: magicview-mysql
     image: mysql:latest
+    container_name: magicview-mysql
     environment:
       MYSQL_ROOT_PASSWORD: magic2024view
       MYSQL_DATABASE: magicview
+      MYSQL_USER: pontocom
+      MYSQL_PASSWORD: magic2020View
     ports:
       - "3306:3306"
     networks:
@@ -19,13 +22,12 @@ services:
       - d:\volumes_docker\magic_view\mysql:/var/lib/mysql
 
   magicview-api:
-    container_name: magicview-api
-    image: magicview:1.0
+    image: magiview:1.1
     environment:
       SRV_PORT: 8080
-      DATABASE_HOST: magicview-mysql
-      DATABASE_USER: root
-      DATABASE_PASSWORD: magic2024view
+      DATABASE_HOST: magicview-magicview-mysql-1
+      DATABASE_USER: pontocom
+      DATABASE_PASSWORD: magic2020View
     ports:
       - "8080:8080"
     networks:
